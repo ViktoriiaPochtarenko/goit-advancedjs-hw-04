@@ -14,8 +14,11 @@ import {
 const form = document.querySelector('.form');
 const loadMoreBtn = document.querySelector('.load-more');
 
+const PER_PAGE = 15;
+
 let currentQuery = '';
 let currentPage = 1;
+let totalHits = 0;
 
 form.addEventListener('submit', onFormSubmit);
 loadMoreBtn.addEventListener('click', onLoadMoreClick);
@@ -36,6 +39,7 @@ async function onFormSubmit(event) {
 
   currentQuery = query;
   currentPage = 1;
+  totalHits = 0;
 
   clearGallery();
   hideLoadMoreButton();
@@ -54,8 +58,18 @@ async function onFormSubmit(event) {
       return;
     }
 
+    totalHits = data.totalHits;
     createGallery(data.hits);
-    showLoadMoreButton();
+
+    if (currentPage * PER_PAGE >= totalHits) {
+      hideLoadMoreButton();
+      iziToast.info({
+        message: "We're sorry, but you've reached the end of search results.",
+        position: 'topRight',
+      });
+    } else {
+      showLoadMoreButton();
+    }
   } catch (error) {
     iziToast.error({
       title: 'Error',
@@ -78,7 +92,17 @@ async function onLoadMoreClick() {
     const data = await getImagesByQuery(currentQuery, currentPage);
 
     createGallery(data.hits);
-    showLoadMoreButton();
+    smoothScrollByCardHeight();
+
+    if (currentPage * PER_PAGE >= totalHits) {
+      hideLoadMoreButton();
+      iziToast.info({
+        message: "We're sorry, but you've reached the end of search results.",
+        position: 'topRight',
+      });
+    } else {
+      showLoadMoreButton();
+    }
   } catch (error) {
     iziToast.error({
       title: 'Error',
@@ -88,4 +112,15 @@ async function onLoadMoreClick() {
   } finally {
     hideLoader();
   }
+}
+
+function smoothScrollByCardHeight() {
+  const firstCard = document.querySelector('.gallery .gallery-item');
+  if (!firstCard) return;
+
+  const { height } = firstCard.getBoundingClientRect();
+  window.scrollBy({
+    top: height * 2,
+    behavior: 'smooth',
+  });
 }
