@@ -1,12 +1,12 @@
-import{a as g,S as p,i}from"./assets/vendor-D1AWmRWP.js";(function(){const a=document.createElement("link").relList;if(a&&a.supports&&a.supports("modulepreload"))return;for(const e of document.querySelectorAll('link[rel="modulepreload"]'))o(e);new MutationObserver(e=>{for(const t of e)if(t.type==="childList")for(const l of t.addedNodes)l.tagName==="LINK"&&l.rel==="modulepreload"&&o(l)}).observe(document,{childList:!0,subtree:!0});function r(e){const t={};return e.integrity&&(t.integrity=e.integrity),e.referrerPolicy&&(t.referrerPolicy=e.referrerPolicy),e.crossOrigin==="use-credentials"?t.credentials="include":e.crossOrigin==="anonymous"?t.credentials="omit":t.credentials="same-origin",t}function o(e){if(e.ep)return;e.ep=!0;const t=r(e);fetch(e.href,t)}})();const y="8392183-8e71f5162b0cd4e1a7a250d40",m="https://pixabay.com/api/";function d(s){const a={key:y,q:s,image_type:"photo",orientation:"horizontal",safesearch:!0};return g.get(m,{params:a}).then(r=>r.data)}const n=document.querySelector(".gallery"),c=document.querySelector(".loader"),h=new p(".gallery a",{captionsData:"alt",captionPosition:"bottom",captionDelay:250});function b(s){const a=s.map(({webformatURL:r,largeImageURL:o,tags:e,likes:t,views:l,comments:u,downloads:f})=>`
+import{a as E,S as P,i as s}from"./assets/vendor-Do60_h77.js";(function(){const o=document.createElement("link").relList;if(o&&o.supports&&o.supports("modulepreload"))return;for(const e of document.querySelectorAll('link[rel="modulepreload"]'))n(e);new MutationObserver(e=>{for(const r of e)if(r.type==="childList")for(const l of r.addedNodes)l.tagName==="LINK"&&l.rel==="modulepreload"&&n(l)}).observe(document,{childList:!0,subtree:!0});function a(e){const r={};return e.integrity&&(r.integrity=e.integrity),e.referrerPolicy&&(r.referrerPolicy=e.referrerPolicy),e.crossOrigin==="use-credentials"?r.credentials="include":e.crossOrigin==="anonymous"?r.credentials="omit":r.credentials="same-origin",r}function n(e){if(e.ep)return;e.ep=!0;const r=a(e);fetch(e.href,r)}})();const q="8392183-8e71f5162b0cd4e1a7a250d40",B="https://pixabay.com/api/";async function f(t,o){const a={key:q,q:t,image_type:"photo",orientation:"horizontal",safesearch:!0,page:o,per_page:15};return(await E.get(B,{params:a})).data}const g=document.querySelector(".gallery"),y=document.querySelector(".loader"),p=document.querySelector(".load-more"),R=new P(".gallery a",{captionsData:"alt",captionPosition:"bottom",captionDelay:250});function m(t){const o=t.map(({webformatURL:a,largeImageURL:n,tags:e,likes:r,views:l,comments:S,downloads:v})=>`
     <li class="gallery-item">
-      <a class="gallery-link" href="${o}">
-        <img class="gallery-image" src="${r}" alt="${e}" loading="lazy" />
+      <a class="gallery-link" href="${n}">
+        <img class="gallery-image" src="${a}" alt="${e}" loading="lazy" />
       </a>
       <ul class="gallery-info">
         <li class="gallery-info-item">
           <span class="gallery-info-label">Likes</span>
-          <span class="gallery-info-value">${t}</span>
+          <span class="gallery-info-value">${r}</span>
         </li>
         <li class="gallery-info-item">
           <span class="gallery-info-label">Views</span>
@@ -14,12 +14,12 @@ import{a as g,S as p,i}from"./assets/vendor-D1AWmRWP.js";(function(){const a=doc
         </li>
         <li class="gallery-info-item">
           <span class="gallery-info-label">Comments</span>
-          <span class="gallery-info-value">${u}</span>
+          <span class="gallery-info-value">${S}</span>
         </li>
         <li class="gallery-info-item">
           <span class="gallery-info-label">Downloads</span>
-          <span class="gallery-info-value">${f}</span>
+          <span class="gallery-info-value">${v}</span>
         </li>
       </ul>
-    </li>`).join("");n.insertAdjacentHTML("beforeend",a),h.refresh()}function L(){n.innerHTML=""}function S(){c.classList.remove("is-hidden")}function P(){c.classList.add("is-hidden")}const q=document.querySelector(".form");q.addEventListener("submit",v);function v(s){s.preventDefault();const a=s.currentTarget.elements["search-text"].value.trim();if(a===""){i.warning({title:"Caution",message:"Please enter a search query.",position:"topRight"});return}L(),S(),d(a).then(r=>{if(!r.hits||r.hits.length===0){i.error({title:"Error",message:"Sorry, there are no images matching your search query. Please try again!",position:"topRight"});return}b(r.hits)}).catch(r=>{i.error({title:"Error",message:"Something went wrong. Please try again later.",position:"topRight"}),console.error(r)}).finally(()=>{P(),s.target.reset()})}
+    </li>`).join("");g.insertAdjacentHTML("beforeend",o),R.refresh()}function M(){g.innerHTML=""}function h(){y.classList.remove("is-hidden")}function L(){y.classList.add("is-hidden")}function b(){p.classList.remove("is-hidden")}function u(){p.classList.add("is-hidden")}const $=document.querySelector(".form"),C=document.querySelector(".load-more"),w=15;let d="",i=1,c=0;$.addEventListener("submit",O);C.addEventListener("click",x);async function O(t){t.preventDefault();const o=t.currentTarget.elements["search-text"].value.trim();if(o===""){s.warning({title:"Caution",message:"Please enter a search query.",position:"topRight"});return}d=o,i=1,c=0,M(),u(),h();try{const a=await f(d,i);if(!a.hits||a.hits.length===0){s.error({title:"Error",message:"Sorry, there are no images matching your search query. Please try again!",position:"topRight"});return}c=a.totalHits,m(a.hits),i*w>=c?(u(),s.info({message:"We're sorry, but you've reached the end of search results.",position:"topRight"})):b()}catch{s.error({title:"Error",message:"Something went wrong. Please try again later.",position:"topRight"})}finally{L(),t.target.reset()}}async function x(){i+=1,u(),h();try{const t=await f(d,i);m(t.hits),A(),i*w>=c?(u(),s.info({message:"We're sorry, but you've reached the end of search results.",position:"topRight"})):b()}catch{s.error({title:"Error",message:"Something went wrong. Please try again later.",position:"topRight"})}finally{L()}}function A(){const t=document.querySelector(".gallery .gallery-item");if(!t)return;const{height:o}=t.getBoundingClientRect();window.scrollBy({top:o*2,behavior:"smooth"})}
 //# sourceMappingURL=index.js.map
